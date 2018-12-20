@@ -1,0 +1,72 @@
+<div class="catalogo-wrapper">
+  <div class="table-container mat-elevation-z2">
+    <div class="table-header">
+      <div class="table-ADE-buttons">
+
+        <p class="mat-headline">Ventas activas</p>
+        
+        <a mat-button routerLink="/ventas/form">
+          <mat-icon>add</mat-icon>
+          <span class="table-button-label">NUEVA VENTA</span>
+        </a>
+      </div>
+    </div>
+
+    <div [class.table-wrapper-x]="ventasServ.ventasLength">
+      <mat-table [dataSource]="dataSource" [class.hide-table]="!ventasServ.ventasLength" matSort matSortActive="folio" matSortDirection="asc"
+        (matSortChange)="dataSource.sortChanges.next($event)">
+
+        <ng-container matColumnDef="folio">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Folio Venta </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.folio}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="cliente">
+          <mat-header-cell *matHeaderCellDef> Clave Cliente </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.cliente._id}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+          <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.cliente.nombreCompleto.nombres}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+          <mat-cell *matCellDef="let row"> $ {{row.total}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+          <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+          <mat-cell *matCellDef="let row">{{mainServ.moment(row.fecha, '', 'es').format('ll')}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="estatus">
+          <mat-header-cell *matHeaderCellDef> Estatus </mat-header-cell>
+          <mat-cell *matCellDef="let row">{{row.estatus == "a" ? 'Activa' : "Cerrada"}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectedRow = selectedRow === row ? undefined : row" [ngClass]="{'rowHighlight': selectedRow?._id == row._id}"
+          style="cursor: pointer;"></mat-row>
+      </mat-table>
+    </div>
+
+    <div class="table-info" *ngIf="!ventasServ.ventasLength || ventasServ.isLoadingVentas">
+      <mat-spinner style="margin: auto;" *ngIf="ventasServ.isLoadingVentas"></mat-spinner>
+      <p class="mat-headline" *ngIf="!ventasServ.isLoadingVentas">No hay registros
+        <span class="mat-headline" *ngIf="searchValue">para '{{searchValue}}'</span>
+      </p>
+    </div>
+
+    <mat-paginator [length]="ventasServ.ventasLength" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5,10,20,50,100]" showFirstLastButtons
+      (page)="dataSource.pageChanges.next($event)">
+    </mat-paginator>
+  </div>
+
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

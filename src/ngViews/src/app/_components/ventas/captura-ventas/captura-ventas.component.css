@@ -1,0 +1,48 @@
+:host {
+    display: block;
+    position: fixed;
+    top: 0; 
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: #fafafa;
+}
+
+.folio-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cliente-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.articulo-container {
+    display: flex;
+    align-items: center;
+}
+
+.my-table-container, .abonos-container {
+    margin: 20px 0;
+}
+
+.radio-group {
+    display: inline-flex;
+    flex-direction: column;
+}
+  
+.radio-button {
+    margin: 5px;
+}
+
+@media only screen and (min-width: 600px) {
+    .cliente-container {
+        flex-direction: row;
+    }
+
+    .folio-container .mat-form-field {
+        width: 200px;
+    }
+}

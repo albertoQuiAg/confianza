@@ -1,0 +1,220 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body, html {
+    margin: 0;
+    padding: 0;
+    /* overflow-y: hidden !important; */
+}
+
+.loading {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 9999;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #fafafa;
+    transition: opacity .6s ease-out;
+}
+
+/* mat-table */
+.table-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.table-container > div:nth-of-type(2) {
+    overflow: auto;
+    background-color: #fff;
+}
+
+.table-wrapper-x {
+    flex: 1 1;
+    overflow: auto;
+}
+
+.table-container > .mat-paginator {
+    flex: 0 1 auto;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.02);
+}
+
+.table-header {
+    flex: 0 1 auto;
+    padding: 8px 24px;
+    background-color: rgba(0,0,0,0.02);
+}
+
+.table-header > .mat-form-field {
+    width: 100%;
+}
+
+.table-button-label {
+    display: none;
+}
+
+.rowHighlight {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.hide-table {
+    flex: none !important;
+}
+
+.table-info {
+    padding: 8px 24px 0;
+    word-break: break-word;
+    flex: 1 1;
+    overflow: auto;
+    background-color: #fff;
+}
+
+.table-ADE-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (min-width: 600px) {
+
+    .table-button-label {
+        display: inline-block;
+    }
+
+    .table-ADE-buttons {
+        justify-content: space-between;
+    }
+
+    .catalogo-wrapper, .child-component-wrapper {
+        padding-top: 64px !important;
+    }
+
+    .child-component-wrapper .mat-form-field {
+        width: 500px;
+    }
+}
+/* end mat-table */
+
+/* catalogo */
+.catalogo-wrapper {
+    height: 100vh;
+    padding-top: 56px;
+    box-sizing: border-box;
+    /* overflow-y: hidden; */
+}
+
+.child-component-wrapper {
+    height: 100vh;
+    overflow: auto;
+    box-sizing: border-box;
+    padding-top: 56px;
+}
+
+.child-component-wrapper mat-form-field {
+    width: 100%;
+}
+
+.form-action-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 16px;
+}
+
+.form-title {
+    margin-top: 16px !important;
+}
+
+.indicadores-suffix {
+    display: flex;
+    flex-direction: row;
+}
+
+.child-form-container {
+    padding: 16px;
+    background-color: #fff;
+}
+
+@media only screen and (min-width: 900px) {
+    .catalogo-wrapper {
+        padding: 80px 16px 16px 16px !important;
+    }
+
+    .form-action-buttons {
+        justify-content: flex-end;
+    }
+
+    .child-component-wrapper {
+        padding: 80px 16px 16px 16px !important;
+    }
+
+    .child-form-container {
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 
+            0px 2px 2px 0px rgba(0, 0, 0, 0.14), 
+            0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+    }
+}
+
+.mat-select-search-no-entries-found {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* end catalogo */
+
+/* my table */
+.my-table {
+    position: relative;
+    border-collapse: collapse;
+    white-space: nowrap;
+    font-size: 14px;
+    background-color: #fff;
+    text-align: left;
+    font-family: 'Roboto','Helvetica','Arial',sans-serif !important;
+    width: 100%;
+    min-width: 800px;
+    table-layout: fixed;
+}
+  
+.my-table th {
+    position: relative;
+    vertical-align: bottom;
+    text-overflow: ellipsis;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0;
+    height: 56px;
+    font-size: 12px;
+    color: rgba(0,0,0,.54);
+    box-sizing: border-box;
+    text-align: left;
+    padding: 0 12px 12px;;
+}
+  
+.my-table tbody tr {
+    position: relative;
+    height: 65px;
+    border-top: 1px solid rgba(0,0,0,.12);border-top: 1px solid rgba(0,0,0,.12);
+}
+  
+.my-table td {
+    vertical-align: middle;
+    position: relative;
+    height: 65px;
+    padding: 12px;
+    box-sizing: border-box;
+    text-align: left;
+} 
+
+.my-table-container {
+    overflow: auto;
+    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+/* end  my table */

@@ -1,0 +1,151 @@
+<div class="child-component-wrapper">
+
+  <div class="child-form-container">
+    <p class="mat-headline form-title">{{title}}</p>
+
+    <form [formGroup]="ventaForm" (ngSubmit)="onSubmit()">
+
+      <div class="folio-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Folio Venta</mat-label>
+          <input matInput placeholder="Folio de la venta" formControlName="folio" readonly required>
+        </mat-form-field>
+      </div>
+
+      <div class="cliente-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Cliente</mat-label>
+          <input matInput placeholder="Buscar cliente..." formControlName="cliente" [matAutocomplete]="cliente"
+            required (blur)="checkCliente()" (keydown.enter)="$event.preventDefault()">
+          <div matSuffix class="indicadores-suffix">
+            <mat-spinner mode="indeterminate" diameter="30" *ngIf="clienteSpinner"></mat-spinner>
+            <button type="button" mat-button *ngIf="ventaForm.controls['cliente'].value" matSuffix mat-icon-button
+              aria-label="Borrar" (click)="resetCliente()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <mat-autocomplete autoActiveFirstOption #cliente="matAutocomplete" (optionSelected)="selectedCliente($event)">
+            <mat-option *ngFor="let cliente of clientes" [value]="setNombreCliente(cliente)" [id]="cliente.rfc">
+              {{cliente.nombreCompleto.nombres}} {{cliente.nombreCompleto.apellidoPaterno}}
+              {{cliente.nombreCompleto.apellidoMaterno}}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="ventaForm.controls['cliente'].invalid">{{getErrorMessage('cliente')}}</mat-error>
+        </mat-form-field>
+
+        <p class="mat-body-2" style="margin-left: 16px;">RFC: <span class="mat-body-1">{{rfcCliente}}</span></p>
+      </div>
+
+      <div class="articulo-container" [formGroup]="articuloForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Articulo</mat-label>
+          <input matInput placeholder="Buscar articulo..." [matAutocomplete]="articulo" formControlName="articulo"
+            (blur)="checkArticulo()" (keydown.enter)="$event.preventDefault()">
+          <div matSuffix class="indicadores-suffix">
+            <mat-spinner mode="indeterminate" diameter="30" *ngIf="articuloSpinner"></mat-spinner>
+            <button type="button" mat-button *ngIf="articuloForm.get('articulo').value" matSuffix mat-icon-button
+              aria-label="Borrar" (click)="resetArticulo()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <mat-autocomplete autoActiveFirstOption #articulo="matAutocomplete" (optionSelected)="selectedArticulo($event)">
+            <mat-option *ngFor="let articulo of articulos" [value]="articulo.descripcion" [id]="articulo._id">
+              {{articulo.descripcion}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <button type="button" mat-icon-button (click)="addArticulo()">
+          <mat-icon>add_box</mat-icon>
+        </button>
+      </div>
+
+      <mat-divider *ngIf="detallesFA.length > 0"></mat-divider>
+
+      <div class="my-table-container" *ngIf="detallesFA.length > 0">
+        <table class="my-table">
+          <thead>
+            <th>Descripción Articulo</th>
+            <th>Modelo</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Importe</th>
+            <th></th>
+          </thead>
+          <tbody formArrayName="detalleVenta">
+            <tr *ngFor="let detalle of ventaForm.controls['detalleVenta']['controls']; let i = index;" [formGroupName]="i">
+              <td>{{detalle.get('articulo').get('descripcion').value}}</td>
+              <td>{{detalle.get('articulo').get('modelo').value}}</td>
+              <td>
+                <input matInput placeholder="Introduce cantidad" formControlName="cantidad" (keydown.enter)="$event.preventDefault()"
+                  required #cantidadInputDetalle (keyup)="calculaImporte(i, $event.target.value)">
+              </td>
+              <td>{{detalle.get('articulo').get('precio').value}}</td>
+              <td>{{detalle.get('importe').value}}</td>
+              <td>
+                <button type="button" mat-icon-button (click)="removeDetalle(i)">
+                  <mat-icon>delete_forever</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Enganche: </td>
+              <td>
+                <input matInput formControlName="enganche">
+              </td>
+            </tr>
+            <tr style="border-top: none;">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Bonificación enganche:</td>
+              <td>
+                <input matInput formControlName="bonificacionEnganche">
+              </td>
+            </tr>
+            <tr style="border-top: none;">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Total: </td>
+              <td>
+                <input matInput formControlName="total">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <mat-divider *ngIf="showSave"></mat-divider>
+
+      <div class="abonos-container">
+        <mat-radio-group class="radio-group" labelPosition="before" (change)="onAbonosChange($event)">
+          <mat-radio-button class="radio-button" *ngFor="let mensualidad of mensualidades" [value]="mensualidad.numero">
+            {{mensualidad.label}} - ${{mensualidad.abono}} - Total a pagar $ {{mensualidad.totalAPagar}} - Se ahorra $ {{mensualidad.ahorro}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="form-action-buttons">
+        <a mat-button routerLink="/ventas">CANCELAR</a>
+        <mat-spinner diameter="30" *ngIf="guardarButton"></mat-spinner>
+        <button *ngIf="!showSave" type="button" mat-button (click)="onSiguiente()">SIGUIENTE</button>
+        <button *ngIf="showSave" type="submit" mat-button [disabled]="disabledSubmit || guardarButton">{{guardarButton
+          ? 'GUARDANDO...'
+          :
+          'GUARDAR'}}
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+</div>

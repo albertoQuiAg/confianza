@@ -1,0 +1,11 @@
+:host {
+    display: block;
+}
+
+/* mat-table {
+    min-width: 600px;
+} */
+
+.mat-form-field {
+    width: 100%;
+}

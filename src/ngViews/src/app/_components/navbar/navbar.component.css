@@ -1,0 +1,12 @@
+.my-spacer {
+    flex: 1 1 auto;
+}
+
+mat-toolbar {
+    position: absolute;
+    z-index: 200;
+}
+
+.menu-button {
+    height: 100%;
+}

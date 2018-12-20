@@ -1,0 +1,7 @@
+.my-action-buttons {
+    font-weight: bold;
+}
+
+.mat-dialog-actions {
+    justify-content: flex-end;
+}
