@@ -28,6 +28,10 @@
     margin: 20px 0;
 }
 
+.abonos-container {
+    overflow: auto;
+}
+
 .radio-group {
     display: inline-flex;
     flex-direction: column;

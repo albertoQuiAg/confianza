@@ -2,9 +2,9 @@
     display: block;
 }
 
-/* mat-table {
-    min-width: 600px;
-} */
+mat-table {
+    min-width: 820px;
+}
 
 .mat-form-field {
     width: 100%;
